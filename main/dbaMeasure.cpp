@@ -74,22 +74,12 @@ void DbaMeasure::audioProcessTask(void *parameter)
         double squaredTotal = sqrt(double(sum_sqr_weighted)/SAMPLES_SHORT);
         // Calculate dB values relative to MIC_REF_AMPL and adjust for reference dB
         double short_SPL_dB = MIC_OFFSET_DB + MIC_REF_DB + 20 * log10(sqrt(double(sum_sqr_weighted) / SAMPLES_SHORT) / MIC_REF_AMPL);
-        // //printf("total: %llu  ", total);
-        // int32_t mean = (int32_t) (total / 6000);
-
-        // long double squaredTotal = 0;
-
-        // for (uint16_t i = 0; i < 6000; i++)
-        // {
-        //     uint32_t dc_corrected = audioInBuffer[i];// - mean;
-        //     squaredTotal += pow(audioInBuffer[i],2);
-
-        // }
 
         
 
 
-        printf("db: %lf\n", short_SPL_dB);
+        // printf("db: %lf\n", short_SPL_dB);
+        xQueueSend(this->dBaQueue, &short_SPL_dB, (TickType_t) 10);
 
     }
 }
