@@ -1,18 +1,7 @@
-/* Hello World Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
-#include <stdio.h>
-#include "sdkconfig.h"
+#include "dbaMeasure.hpp"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "esp_system.h"
-#include "esp_spi_flash.h"
-
+#include "freertos/queue.h"
 #include "driver/i2s.h"
 #include "driver/gpio.h"
 #include <math.h>
@@ -36,15 +25,18 @@
 #define MIC_NOISE_DB      30        // dB - Noise floor*/
 
 
-const double A_weighting_B[] = {0.169994948147430, 0.280415310498794, -1.120574766348363, 0.131562559965936, 0.974153561246036, -0.282740857326553, -0.152810756202003};
-const double A_weighting_A[] = {1.0, -2.12979364760736134, 0.42996125885751674, 1.62132698199721426, -0.96669962900852902, 0.00121015844426781, 0.04400300696788968};
-const double Mic_Flattening_B[] = {1.001240684967527, -1.996936108836337, 0.995703101823006};
-const double Mic_Flattening_A[] = {1.0, -1.997675693595542, 0.997677044195563};
 
-IIR_FILTER A_weighting(A_weighting_B, A_weighting_A);
-IIR_FILTER Mic_Flattening(Mic_Flattening_B, Mic_Flattening_A);
+void DbaMeasure::audioProcessTask(void *parameter)
+{
+    const double A_weighting_B[] = {0.169994948147430, 0.280415310498794, -1.120574766348363, 0.131562559965936, 0.974153561246036, -0.282740857326553, -0.152810756202003};
+    const double A_weighting_A[] = {1.0, -2.12979364760736134, 0.42996125885751674, 1.62132698199721426, -0.96669962900852902, 0.00121015844426781, 0.04400300696788968};
+    const double Mic_Flattening_B[] = {1.001240684967527, -1.996936108836337, 0.995703101823006};
+    const double Mic_Flattening_A[] = {1.0, -1.997675693595542, 0.997677044195563};
 
-void audioProcessTask(void *parameter) {
+    IIR_FILTER A_weighting(A_weighting_B, A_weighting_A);
+    IIR_FILTER Mic_Flattening(Mic_Flattening_B, Mic_Flattening_A);
+
+
     uint16_t arraySize;
     arraySize = SAMPLES_SHORT * sizeof(int32_t);
     int32_t *audioInBuffer;
@@ -53,9 +45,7 @@ void audioProcessTask(void *parameter) {
     uint32_t bytes_written;
     float average = 0;
 
-
-
-
+    this->dBaQueue = xQueueCreate(20, sizeof(double));
 
     while (1)
     {
@@ -102,10 +92,9 @@ void audioProcessTask(void *parameter) {
         printf("db: %lf\n", short_SPL_dB);
 
     }
-    
 }
 
-extern "C" void app_main(void)
+DbaMeasure::DbaMeasure()
 {
     // CONFIG OF I2S_0 per
     const i2s_config_t i2s_config = {
@@ -139,13 +128,23 @@ extern "C" void app_main(void)
         printf("i2s_set_pin: error\n");
     }
 
+
     // INIT audio processing thread
     xTaskCreate(
-        audioProcessTask,
+        this->audioProcessWrapper,
         "task",
         2048,
-        NULL,
+        this,
         1,
         NULL
     );
+
+    
+    
 }
+
+void DbaMeasure::audioProcessWrapper(void * obj){
+    DbaMeasure * m = (DbaMeasure *) obj;
+    m->audioProcessTask(NULL);
+}
+

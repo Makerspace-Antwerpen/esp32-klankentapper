@@ -23,6 +23,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifndef IIR_F
+#define IIR_F 1
+
 #include <stdint.h>
 
 /******************************************************************************/
@@ -190,3 +193,7 @@ class IIRFilter {
     uint8_t i_b = 0, i_a = 0;
     CoeffT *x, *y, *coeff_b, *coeff_a;
 };
+
+
+
+#endif
