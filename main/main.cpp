@@ -30,6 +30,7 @@ extern "C" void app_main(void)
     start_wifi();
     dBaMeasure = new DbaMeasure();
     movingAverage = new MovingAverage(40);
+    int16_t counter = 0;
     while (1)
     {
         vTaskDelay(1);
@@ -38,7 +39,16 @@ extern "C" void app_main(void)
         xQueueReceive(dBaMeasure->dBaQueue, data, (TickType_t) 1000);
         double db = *(double *) data;
         movingAverage->addValue(db);
-        printf("db: %lf\n", movingAverage->getLMA());
+        //printf("db: %lf\n", movingAverage->getLMA());
+        if (counter >= 40){
+            char * buff = (char *) malloc(50);
+            sprintf(buff,"{\"testing\":\"%lf\"}",movingAverage->getLMA());
+            sendTelemetry(buff, 50);
+            free(buff);
+            counter = 0;
+            continue;
+        }
+        counter++;
     }
     
 }
