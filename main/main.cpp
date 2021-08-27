@@ -15,14 +15,19 @@
 #include "esp_spi_flash.h"
 #include "dbaMeasure.hpp"
 #include "MovingAverage.hpp"
+extern "C" {
+    #include "WiFi.h"
+    #include "Mqtt.h"
+}
+
 
 DbaMeasure * dBaMeasure;
 MovingAverage * movingAverage;
 
 
-
 extern "C" void app_main(void)
 {
+    start_wifi();
     dBaMeasure = new DbaMeasure();
     movingAverage = new MovingAverage(40);
     while (1)
@@ -37,3 +42,5 @@ extern "C" void app_main(void)
     }
     
 }
+
+
