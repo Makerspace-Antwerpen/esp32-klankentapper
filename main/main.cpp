@@ -42,8 +42,8 @@ extern "C" void app_main(void)
         //printf("db: %lf\n", movingAverage->getLMA());
         if (counter >= 40){
             char * buff = (char *) malloc(50);
-            sprintf(buff,"{\"testing\":\"%lf\"}",movingAverage->getLMA());
-            sendTelemetry(buff, 50);
+            int len = sprintf(buff,"{\"testing\":\"%lf\"}",movingAverage->getLMA());
+            sendTelemetry(buff, len);
             free(buff);
             counter = 0;
             continue;

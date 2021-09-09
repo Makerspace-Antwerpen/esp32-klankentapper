@@ -40,7 +40,12 @@ esp_mqtt_client_handle_t* mqtt_start(void)
 	mqtt_config = wifi_manager_get_mqtt_config();
 	ESP_LOGI( TAG, "Connecting to mqtt server %s", mqtt_config->server );
     esp_mqtt_client_config_t mqtt_cfg = {
+<<<<<<< HEAD
         .uri = (char*)mqtt_config->server,
+=======
+        .uri = CONFIG_BROKER_URL,
+        .username = CONFIG_THINGSBOARD_TOKEN,
+>>>>>>> f3ad212 (Measurements working with thingsboard. Limmeted length of mqtt string.)
     };
 
     mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
