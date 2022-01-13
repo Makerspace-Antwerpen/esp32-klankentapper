@@ -3,4 +3,4 @@
 cmake_minimum_required(VERSION 3.5)
 set(EXTRA_COMPONENTS_DIRS ./components/esp32-wifi-manager)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(hello_wifi_and_mqtt)
+project(esp32-klankentapper)

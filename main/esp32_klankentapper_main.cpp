@@ -19,6 +19,8 @@
 #include "esp_log.h"
 
 #include "wifi_manager.h"
+#include "dbaMeasure.hpp"
+#include "MovingAverage.hpp"
 
 extern "C" {
 	#include "Mqtt.h"
@@ -35,20 +37,34 @@ extern "C" {
 bool mqtt_on = false;
 
 void blinkLED( void* parameters ) {
-  while( true ) {
-	gpio_pad_select_gpio( LEDpin );
-	gpio_set_direction( LEDpin, GPIO_MODE_OUTPUT );
-	gpio_set_level( LEDpin, 0 );
-    vTaskDelay( 500 / portTICK_PERIOD_MS );
-	gpio_set_level( LEDpin, 1 );
-    vTaskDelay( 500 / portTICK_PERIOD_MS );
-	if( mqtt_on ) {
-		char * buff = (char *) malloc(50);
-        int len = sprintf(buff,"{\"dBA\":\"%lf\"}",23.57);
-        mqtt_send(buff, len);
-        free(buff);
-	}
-  }
+
+	DbaMeasure * dBaMeasure;
+	MovingAverage * movingAverage;
+
+
+	dBaMeasure = new DbaMeasure();
+    movingAverage = new MovingAverage(40);
+    int16_t counter = 0;
+    while (1)
+    {
+        vTaskDelay(1);
+        void * data;
+        data = (void *) malloc(sizeof(double));
+        xQueueReceive(dBaMeasure->dBaQueue, data, (TickType_t) 1000);
+        double db = *(double *) data;
+        movingAverage->addValue(db);
+        if (counter >= 40){
+			if ( mqtt_on ) {
+				char * buff = (char *) malloc(50);
+        		int len = sprintf(buff,"{\"dBA\":\"%lf\"}",movingAverage->getLMA());
+        		mqtt_send(buff, len);
+        		free(buff);
+			}
+            counter = 0;
+            continue;
+        }
+        counter++;
+    }
 }
 
 void callback_mqtt_start(void *pvParameter){
@@ -65,7 +81,7 @@ void app_main(void)
 	xTaskCreatePinnedToCore(
 	    blinkLED,
 	    "Blink LED",
-	    2048,
+	    4096,
 	    NULL,
 	    1,
 	    NULL,
