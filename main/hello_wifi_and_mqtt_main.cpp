@@ -16,62 +16,60 @@
 
 #include <esp_wifi.h>
 #include <esp_netif.h>
+#include "esp_log.h"
+
 #include "wifi_manager.h"
 
-gpio_num_t pin = (gpio_num_t)GPIO_NUM_26;
+extern "C" {
+	#include "Mqtt.h"
+}
+
+static const char TAG[] = "main";
+
+gpio_num_t LEDpin = (gpio_num_t)GPIO_NUM_26;
 
 extern "C" {
 	void app_main();
 }
 
-void randomLED( void* parameters ) {
+bool mqtt_on = false;
+
+void blinkLED( void* parameters ) {
   while( true ) {
-	gpio_pad_select_gpio( pin );
-	gpio_set_direction(pin, GPIO_MODE_OUTPUT );
-	gpio_set_level(pin, 0);  
+	gpio_pad_select_gpio( LEDpin );
+	gpio_set_direction( LEDpin, GPIO_MODE_OUTPUT );
+	gpio_set_level( LEDpin, 0 );
     vTaskDelay( 500 / portTICK_PERIOD_MS );
-	gpio_set_level(pin, 1);  
+	gpio_set_level( LEDpin, 1 );
     vTaskDelay( 500 / portTICK_PERIOD_MS );
+	if( mqtt_on ) {
+		char * buff = (char *) malloc(50);
+        int len = sprintf(buff,"{\"dBA\":\"%lf\"}",23.57);
+        mqtt_send(buff, len);
+        free(buff);
+	}
   }
+}
+
+void callback_mqtt_start(void *pvParameter){
+	ESP_LOGI(TAG, "I have a connection, let's start MQTT!");
+	mqtt_start();
+	mqtt_on = true;
 }
 
 void app_main(void)
 {
-    printf("Hello world!\n");
-	
 	wifi_manager_start();
+	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &callback_mqtt_start);
 	
-    /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is %s chip with %d CPU core(s), WiFi%s%s, ",
-            CONFIG_IDF_TARGET,
-            chip_info.cores,
-            (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
-            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
-
-    printf("silicon revision %d, ", chip_info.revision);
-
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
-
-    printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
-
 	xTaskCreatePinnedToCore(
-	    randomLED,
-	    "Random LED",
-	    1024,
+	    blinkLED,
+	    "Blink LED",
+	    2048,
 	    NULL,
 	    1,
 	    NULL,
 	    1
-	  );
+	);
 
-/*    for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();*/
 }

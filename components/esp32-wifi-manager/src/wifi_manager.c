@@ -82,7 +82,6 @@ char *accessp_json = NULL;
 char *ip_info_json = NULL;
 wifi_config_t* wifi_manager_config_sta = NULL;
 mqtt_config_t* wifi_manager_config_mqtt = NULL;
-
 /* @brief Array of callback function pointers */
 void (**cb_ptr_arr)(void*) = NULL;
 
