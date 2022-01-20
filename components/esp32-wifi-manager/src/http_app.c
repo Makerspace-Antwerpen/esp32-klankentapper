@@ -64,6 +64,7 @@ static char* http_js_url = NULL;
 static char* http_css_url = NULL;
 static char* http_connect_url = NULL;
 static char* http_mqtt_url = NULL;
+static char* http_mqtt_status_url = NULL;
 static char* http_ap_url = NULL;
 static char* http_status_url = NULL;
 
@@ -149,36 +150,48 @@ static esp_err_t http_server_post_handler(httpd_req_t *req){
 	/* POST /mqtt.json */
 	if(strcmp(req->uri, http_mqtt_url) == 0){
 		ESP_LOGI(TAG, "mqtt.json\n" );
-		size_t server_len = 0, topic_len = 0;
-		char *server = NULL, *topic = NULL;
+		size_t server_len = 0, topic_len = 0, user_len = 0, pass_len = 0;
+		char *server = NULL, *topic = NULL, *user = NULL, *pass = NULL;
 
 		/* len of values provided */
 		server_len = httpd_req_get_hdr_value_len(req, "X-Custom-server");
 		topic_len = httpd_req_get_hdr_value_len(req, "X-Custom-topic");
+		user_len = httpd_req_get_hdr_value_len(req, "X-Custom-user");
+		pass_len = httpd_req_get_hdr_value_len(req, "X-Custom-pass");
 
 
-		if(server_len && server_len <= MAX_MQTT_SERVER_SIZE && topic_len && topic_len <= MAX_MQTT_TOPIC_SIZE) {
+		if(server_len && server_len <= MAX_MQTT_SERVER_SIZE && topic_len && topic_len <= MAX_MQTT_TOPIC_SIZE && user_len <= MAX_MQTT_USER_SIZE && pass_len <= MAX_MQTT_PASS_SIZE) {
 			server = malloc(sizeof(char) * (server_len + 1));
 			topic = malloc(sizeof(char) * (topic_len + 1));
+			user = malloc(sizeof(char) * (user_len + 1));
+			pass = malloc(sizeof(char) * (pass_len + 1));
 			httpd_req_get_hdr_value_str(req, "X-Custom-server", server, server_len+1);
 			httpd_req_get_hdr_value_str(req, "X-Custom-topic", topic, topic_len+1);
+			httpd_req_get_hdr_value_str(req, "X-Custom-user", user, user_len+1);
+			httpd_req_get_hdr_value_str(req, "X-Custom-pass", pass, pass_len+1);
 			
 			mqtt_config_t* config = wifi_manager_get_mqtt_config();
 			memset(config, 0x00, sizeof(mqtt_config_t));
 			memcpy(config->server, server, server_len);
 			memcpy(config->topic, topic, topic_len);
+			memcpy(config->user, user, user_len);
+			memcpy(config->pass, pass, pass_len);
+
 			wifi_manager_save_mqtt_config();
 			
 			ESP_LOGI(TAG, "server: %s, topic: %s", config->server, config->topic);
 			
 			free(server);
 			free(topic);
+			free(user);
+			free(pass);
 
 			httpd_resp_set_status(req, http_200_hdr);
 			httpd_resp_set_type(req, http_content_type_json);
 			httpd_resp_set_hdr(req, http_cache_control_hdr, http_cache_control_no_cache);
 			httpd_resp_set_hdr(req, http_pragma_hdr, http_pragma_no_cache);
 			httpd_resp_send(req, NULL, 0);
+
 			
 		} else {
 			/* bad request the authentification header is not complete/not the correct format */
@@ -352,6 +365,27 @@ static esp_err_t http_server_get_handler(httpd_req_t *req){
 				ESP_LOGE(TAG, "http_server_netconn_serve: GET /status.json failed to obtain mutex");
 			}
 		}
+		else if(strcmp(req->uri, http_mqtt_status_url) == 0){
+			//TODO: set up response to mqtt status request.
+			/* if we can get the mutex, write the last version of the AP list */
+			if(wifi_manager_lock_json_buffer(( TickType_t ) 10)){
+
+				httpd_resp_set_status(req, http_200_hdr);
+				httpd_resp_set_type(req, http_content_type_json);
+				httpd_resp_set_hdr(req, http_cache_control_hdr, http_cache_control_no_cache);
+				httpd_resp_set_hdr(req, http_pragma_hdr, http_pragma_no_cache);
+				wifi_manager_generate_mqtt_status_json();
+				char* ap_buf = wifi_manager_get_mqtt_status_json();
+				httpd_resp_send(req, ap_buf, strlen(ap_buf));
+				wifi_manager_unlock_json_buffer();
+
+			}
+			else{
+				httpd_resp_set_status(req, http_503_hdr);
+				httpd_resp_send(req, NULL, 0);
+				ESP_LOGE(TAG, "http_server_netconn_serve: GET /mqtt_status.json failed to obtain mutex");
+			}
+		}
 		else{
 
 			if(custom_get_httpd_uri_handler == NULL){
@@ -400,7 +434,7 @@ void http_app_stop(){
 
 	if(httpd_handle != NULL){
 
-
+		//TODO: fix memory leak here
 		/* dealloc URLs */
 		if(http_root_url) {
 			free(http_root_url);
@@ -478,6 +512,7 @@ void http_app_start(bool lru_purge_enable){
 			const char page_css[] = "style.css";
 			const char page_connect[] = "connect.json";
 			const char page_mqtt[] = "mqtt.json";
+			const char page_mqtt_status[] = "mqtt_status.json";
 			const char page_ap[] = "ap.json";
 			const char page_status[] = "status.json";
 
@@ -504,6 +539,7 @@ void http_app_start(bool lru_purge_enable){
 			http_css_url = http_app_generate_url(page_css);
 			http_connect_url = http_app_generate_url(page_connect);
 			http_mqtt_url = http_app_generate_url(page_mqtt);
+			http_mqtt_status_url = http_app_generate_url(page_mqtt_status);
 			http_ap_url = http_app_generate_url(page_ap);
 			http_status_url = http_app_generate_url(page_status);
 

@@ -79,9 +79,11 @@ char *wifi_manager_sta_ip = NULL;
 uint16_t ap_num = MAX_AP_NUM;
 wifi_ap_record_t *accessp_records;
 char *accessp_json = NULL;
+char *mqtt_status_json = NULL;
 char *ip_info_json = NULL;
 wifi_config_t* wifi_manager_config_sta = NULL;
 mqtt_config_t* wifi_manager_config_mqtt = NULL;
+enum mqtt_status_t wifi_manager_mqtt_status = mqtt_init;
 /* @brief Array of callback function pointers */
 void (**cb_ptr_arr)(void*) = NULL;
 
@@ -188,6 +190,7 @@ void wifi_manager_start(){
 	wifi_manager_json_mutex = xSemaphoreCreateMutex();
 	accessp_records = (wifi_ap_record_t*)malloc(sizeof(wifi_ap_record_t) * MAX_AP_NUM);
 	accessp_json = (char*)malloc(MAX_AP_NUM * JSON_ONE_APP_SIZE + 4); /* 4 bytes for json encapsulation of "[\n" and "]\0" */
+	mqtt_status_json = (char*)malloc(MAX_MQTT_SERVER_SIZE + MAX_MQTT_TOPIC_SIZE + MAX_MQTT_USER_SIZE + MAX_PASSWORD_SIZE + 100);
 	wifi_manager_clear_access_points_json();
 	ip_info_json = (char*)malloc(sizeof(char) * JSON_IP_INFO_SIZE);
 	wifi_manager_clear_ip_info_json();
@@ -228,7 +231,7 @@ esp_err_t wifi_manager_save_mqtt_config(){
 
 	ESP_LOGI(TAG, "About to save mqtt config to flash!!");
 
-	if(wifi_manager_config_mqtt && nvs_sync_lock( portMAX_DELAY )){
+	if(wifi_manager_config_mqtt && nvs_sync_lock( 1000 )){
 		esp_err = nvs_open(wifi_manager_mqtt_nvs_namespace, NVS_READWRITE, &handle);
 		if (esp_err != ESP_OK){
 			nvs_sync_unlock();
@@ -262,6 +265,35 @@ esp_err_t wifi_manager_save_mqtt_config(){
 			ESP_LOGI(TAG, "wifi_manager_wrote wifi_mqtt_config: topic:%s",wifi_manager_config_mqtt->topic);
 
 		}
+
+		sz = sizeof(tmp_conf.user);
+		esp_err = nvs_get_blob(handle, "user", tmp_conf.user, &sz);
+		if( (esp_err == ESP_OK  || esp_err == ESP_ERR_NVS_NOT_FOUND) && strcmp( (char*)tmp_conf.user, (char*)wifi_manager_config_mqtt->user) != 0){
+			/* different ssid or ssid does not exist in flash: save new ssid */
+			esp_err = nvs_set_blob(handle, "user", wifi_manager_config_mqtt->user, 128);
+			if (esp_err != ESP_OK){
+				nvs_sync_unlock();
+				return esp_err;
+			}
+			change = true;
+			ESP_LOGI(TAG, "wifi_manager_wrote wifi_mqtt_config: user:%s",wifi_manager_config_mqtt->user);
+
+		}
+
+		sz = sizeof(tmp_conf.pass);
+		esp_err = nvs_get_blob(handle, "pass", tmp_conf.pass, &sz);
+		if( (esp_err == ESP_OK  || esp_err == ESP_ERR_NVS_NOT_FOUND) && strcmp( (char*)tmp_conf.pass, (char*)wifi_manager_config_mqtt->pass) != 0){
+			/* different ssid or ssid does not exist in flash: save new ssid */
+			esp_err = nvs_set_blob(handle, "pass", wifi_manager_config_mqtt->pass, 128);
+			if (esp_err != ESP_OK){
+				nvs_sync_unlock();
+				return esp_err;
+			}
+			change = true;
+			ESP_LOGI(TAG, "wifi_manager_wrote wifi_mqtt_config: pass:%s",wifi_manager_config_mqtt->pass);
+
+		}
+
 		if(change){
 			esp_err = nvs_commit(handle);
 		}
@@ -269,15 +301,19 @@ esp_err_t wifi_manager_save_mqtt_config(){
 			ESP_LOGI(TAG, "Mqtt config was not saved to flash because no change has been detected.");
 		}
 
-		if (esp_err != ESP_OK) return esp_err;
-
 		nvs_close(handle);
 		nvs_sync_unlock();
+
+		if (esp_err != ESP_OK) return esp_err;
+
+		
 
 	}
 	else{
 		ESP_LOGE(TAG, "wifi_manager_save_mqtt_config failed to acquire nvs_sync mutex");
 	}
+
+	
 	
 	return ESP_OK;
 }
@@ -325,6 +361,26 @@ bool wifi_manager_fetch_mqtt_config(){
 		}
 		memcpy(wifi_manager_config_mqtt->topic, buff, sz);
 
+		/* user */
+		sz = sizeof(wifi_manager_config_mqtt->user);
+		esp_err = nvs_get_blob(handle, "user", buff, &sz);
+		if(esp_err != ESP_OK){
+			free(buff);
+			nvs_sync_unlock();
+			return false;
+		}
+		memcpy(wifi_manager_config_mqtt->user, buff, sz);
+
+		/* pass */
+		sz = sizeof(wifi_manager_config_mqtt->pass);
+		esp_err = nvs_get_blob(handle, "pass", buff, &sz);
+		if(esp_err != ESP_OK){
+			free(buff);
+			nvs_sync_unlock();
+			return false;
+		}
+		memcpy(wifi_manager_config_mqtt->pass, buff, sz);
+
 		nvs_close(handle);
 		nvs_sync_unlock();
 
@@ -346,6 +402,52 @@ bool wifi_manager_fetch_mqtt_config(){
 mqtt_config_t* wifi_manager_get_mqtt_config(){
 	return wifi_manager_config_mqtt;
 }
+
+void wifi_manager_set_mqtt_status(enum mqtt_status_t status){
+	wifi_manager_mqtt_status = status;
+}
+
+enum mqtt_status_t wifi_manager_get_mqtt_status(){
+	return wifi_manager_mqtt_status;
+}
+
+
+void wifi_manager_generate_mqtt_status_json(){
+	strcpy(mqtt_status_json, "{}\n");
+	strcpy(mqtt_status_json, "{\"server\":");
+	json_print_string( (unsigned char*)&wifi_manager_config_mqtt->server,  (unsigned char*)(mqtt_status_json+strlen(mqtt_status_json)) );
+	strcat(mqtt_status_json, ",\"topic\":");
+	json_print_string( (unsigned char*)&wifi_manager_config_mqtt->topic,  (unsigned char*)(mqtt_status_json+strlen(mqtt_status_json)) );
+	strcat(mqtt_status_json, ",\"user\":");
+	json_print_string( (unsigned char*)&wifi_manager_config_mqtt->user,  (unsigned char*)(mqtt_status_json+strlen(mqtt_status_json)) );
+	strcat(mqtt_status_json, ",\"pass\":");
+	json_print_string( (unsigned char*)&wifi_manager_config_mqtt->pass,  (unsigned char*)(mqtt_status_json+strlen(mqtt_status_json)) );
+	strcat(mqtt_status_json, ",\"status\":\"");
+	switch (wifi_manager_mqtt_status)
+	{
+	case mqtt_init:
+		strcat(mqtt_status_json, "initializing");
+		break;
+	case mqtt_connected:
+		strcat(mqtt_status_json, "connected");
+		break;
+	case mqtt_failed:
+		strcat(mqtt_status_json, "failed to connect");
+		break;
+	
+	default:
+		strcat(mqtt_status_json, "unknown status");
+		break;
+	}
+
+	strcat(mqtt_status_json, "\"}");
+
+}
+
+char * wifi_manager_get_mqtt_status_json(){
+	return mqtt_status_json;
+}
+
 
 
 esp_err_t wifi_manager_save_sta_config(){

@@ -147,6 +147,22 @@ h3 {
     display: block
 }
 
+#mqtt-user {
+    border: none;
+    width: 80%;
+    margin-left: 35px;
+    padding: 10px 0px 10px 10px;
+    display: block
+}
+
+#mqtt-pass {
+    border: none;
+    width: 80%;
+    margin-left: 35px;
+    padding: 10px 0px 10px 10px;
+    display: block
+}
+
 #pwd {
     border: none;
     width: 80%;

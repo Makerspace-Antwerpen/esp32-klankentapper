@@ -81,7 +81,7 @@ void app_main(void)
 	xTaskCreatePinnedToCore(
 	    blinkLED,
 	    "Blink LED",
-	    4096,
+	    8000,
 	    NULL,
 	    1,
 	    NULL,

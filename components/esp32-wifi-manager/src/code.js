@@ -22,6 +22,7 @@ function docReady(fn) {
 
 var selectedSSID = "";
 var refreshAPInterval = null;
+var refreshMQTTInterval = null;
 var checkStatusInterval = null;
 
 function stopCheckStatusInterval() {
@@ -38,12 +39,23 @@ function stopRefreshAPInterval() {
   }
 }
 
+function stopRefreshMQTTInterval() {
+  if (refreshMQTTInterval != null) {
+    clearInterval(refreshMQTTInterval);
+    refreshMQTTInterval = null;
+  }
+}
+
 function startCheckStatusInterval() {
   checkStatusInterval = setInterval(checkStatus, 950);
 }
 
 function startRefreshAPInterval() {
   refreshAPInterval = setInterval(refreshAP, 3800);
+}
+
+function startRefreshMQTTInterval() {
+  refreshMQTTInterval = setInterval(refreshMQTT, 1000);
 }
 
 docReady(async function () {
@@ -185,22 +197,32 @@ docReady(async function () {
 
   //first time the page loads: attempt get the connection status and start the wifi scan
   await refreshAP();
+  await refreshMQTT();
   startCheckStatusInterval();
   startRefreshAPInterval();
+  startRefreshMQTTInterval();
 });
 
 async function performMqtt(conntype) {
-    selected_server = gel("mqtt-server").value;
-   	selected_topic = gel("mqtt-topic").value;
-    await fetch("mqtt.json", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Custom-server": selected_server,
-        "X-Custom-topic": selected_topic,
-      },
-      body: { timestamp: Date.now() },
-    });
+  stopRefreshMQTTInterval();
+  gel("mqtt-status").innerHTML = `<span>Waiting</span>`;
+  gel("mqtt-status").style.backgroundColor = "red";
+  let selected_server = gel("mqtt-server").value;
+  let selected_topic = gel("mqtt-topic").value;
+  let selected_user = gel("mqtt-user").value;
+  let selected_pass = gel("mqtt-pass").value;
+  await fetch("mqtt.json", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Custom-server": selected_server,
+      "X-Custom-topic": selected_topic,
+      "X-Custom-user": selected_user,
+      "X-Custom-pass": selected_pass,
+    },
+    body: { timestamp: Date.now() },
+  });
+  startRefreshMQTTInterval();
 }
 
 async function performConnect(conntype) {
@@ -286,6 +308,32 @@ function refreshAPHTML(data) {
   });
 
   gel("wifi-list").innerHTML = h;
+}
+
+async function refreshMQTT(url = "mqtt_status.json") {
+  try {
+    var res = await fetch(url);
+    var mqtt_status = await res.json();
+    refreshMQTTHTML(mqtt_status);
+  } catch (e) {
+    console.info("Access points returned empty from /ap.json!");
+  }
+}
+
+function refreshMQTTHTML(data) {
+  let content = `
+  <ul>
+    <li>Server: ${data.server}</li>
+    <li>Topic: ${data.topic}</li>
+    <li>User: ${data.user}</li>
+    <li>Pass: ${data.pass}</li>
+  </ul>\n`;
+  gel("mqtt-status").innerHTML = content;
+  let color = "red";
+  if (data.status == "connected"){
+    color = "green";
+  }
+  gel("mqtt-status").style.backgroundColor = color;
 }
 
 async function checkStatus(url = "status.json") {

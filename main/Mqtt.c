@@ -39,20 +39,31 @@ esp_mqtt_client_handle_t* mqtt_start(void)
 {
 	mqtt_config = wifi_manager_get_mqtt_config();
 	ESP_LOGI( TAG, "Connecting to mqtt server %s", mqtt_config->server );
+    
     esp_mqtt_client_config_t mqtt_cfg = {
         .uri = (char*)mqtt_config->server,
+        .username = (char*)mqtt_config->user,
+        .password = (char*)mqtt_config->pass,
     };
+
 
     mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_start(mqtt_client);
 	ESP_LOGI( TAG, "Connected to mqtt server %s", mqtt_config->server );
+    wifi_manager_set_mqtt_status(mqtt_connected);
     return &mqtt_client;
 }
 
 void mqtt_send(char * message, int len){
 	ESP_LOGI( TAG, "Trying to send %s to %s", message, (char*)mqtt_config->topic );
-	if (mqtt_client == NULL)
+	if (mqtt_client == NULL){
+        wifi_manager_set_mqtt_status(mqtt_failed);
         mqtt_start();
+        wifi_manager_set_mqtt_status(mqtt_connected);
+    }
+    if (mqtt_client == NULL){
+        wifi_manager_set_mqtt_status(mqtt_failed);
+    }
 	if( mqtt_client != NULL )
 		esp_mqtt_client_publish(mqtt_client, (char*)mqtt_config->topic, message, len, 0, 0);
 }

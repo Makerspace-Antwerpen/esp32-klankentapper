@@ -307,13 +307,28 @@ void wifi_manager_scan_async();
 
 #define MAX_MQTT_SERVER_SIZE 128
 #define MAX_MQTT_TOPIC_SIZE 128
+#define MAX_MQTT_USER_SIZE 128
+#define MAX_MQTT_PASS_SIZE 128
 typedef struct {
-    uint8_t server[MAX_MQTT_SERVER_SIZE];  /**< configuration of server */
-    uint8_t topic[MAX_MQTT_TOPIC_SIZE]; /**< configuration of topic */
+    char server[MAX_MQTT_SERVER_SIZE];  /**< configuration of server */
+    char topic[MAX_MQTT_TOPIC_SIZE]; /**< configuration of topic */
+	char user[MAX_MQTT_USER_SIZE];
+	char pass[MAX_MQTT_PASS_SIZE];
 } mqtt_config_t;
+
+enum mqtt_status_t {
+	mqtt_init,
+	mqtt_connected,
+	mqtt_failed,
+};
+
 esp_err_t wifi_manager_save_mqtt_config();
 bool wifi_manager_fetch_mqtt_config();
 mqtt_config_t* wifi_manager_get_mqtt_config();
+void wifi_manager_set_mqtt_status(enum mqtt_status_t status);
+enum mqtt_status_t wifi_manager_get_mqtt_status();
+void wifi_manager_generate_mqtt_status_json();
+char * wifi_manager_get_mqtt_status_json();
 
 
 /**
