@@ -18,9 +18,9 @@
 #define DMA_BANKS 32
 
 #define MIC_OFFSET_DB     0    // Default offset (sine-wave RMS vs. dBFS)
-#define MIC_REF_DB        90.0      // dB(SPL)
-#define MIC_BITS          24        // valid bits in I2S data
-#define MIC_REF_AMPL      182571    // Amplitude at 94dB(SPL) (-26dBFS from datasheet, i.e. (2^23-1)*10^(-26/20) )
+#define MIC_REF_DB        89.0      // dB(SPL)
+#define MIC_BITS          20        // valid bits in I2S data
+#define MIC_REF_AMPL      20583.891001    // Amplitude at 89dB(SPL) (-26dBFS from datasheet, i.e. (2^23-1)*10^(-26/20) )
 #define MIC_OVERLOAD_DB   120.0     // dB - Acoustic overload point*/
 #define MIC_NOISE_DB      30        // dB - Noise floor*/
 
@@ -88,11 +88,11 @@ DbaMeasure::DbaMeasure()
 {
     // CONFIG OF I2S_0 per
     const i2s_config_t i2s_config = {
-        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
+        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
         .sample_rate = SAMPLE_RATE,
-        .bits_per_sample = I2S_BITS_PER_SAMPLE_24BIT,
+        .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
         .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
-        //.communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
+        .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S),
         .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
         .dma_buf_count = DMA_BANKS,
         .dma_buf_len = DMA_BANK_SIZE,
@@ -107,7 +107,7 @@ DbaMeasure::DbaMeasure()
     }
 
     i2s_pin_config_t pin_config = {
-        .bck_io_num = -1, // Bit Clock.
+        .bck_io_num = 19, // Bit Clock.
         .ws_io_num = 18,  // Word Select aka left/right clock aka LRCL. !!! When in pdm mode this is the clock
         .data_out_num = -1,
         .data_in_num = 17, // Data-out of the mic.
