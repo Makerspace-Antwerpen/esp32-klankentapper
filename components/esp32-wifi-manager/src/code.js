@@ -196,6 +196,7 @@ docReady(async function () {
   });
 
   //first time the page loads: attempt get the connection status and start the wifi scan
+  await loadMQTT();
   await refreshAP();
   await refreshMQTT();
   startCheckStatusInterval();
@@ -320,6 +321,7 @@ async function refreshMQTT(url = "mqtt_status.json") {
   }
 }
 
+
 function refreshMQTTHTML(data) {
   let content = `
   <ul>
@@ -334,6 +336,23 @@ function refreshMQTTHTML(data) {
     color = "green";
   }
   gel("mqtt-status").style.backgroundColor = color;
+}
+
+async function loadMQTT(url = "mqtt_status.json") {
+  try {
+    var res = await fetch(url);
+    var mqtt_status = await res.json();
+    loadMQTTHTML(mqtt_status);
+  } catch (e) {
+    console.info("Access points returned empty from /ap.json!");
+  }
+}
+
+function loadMQTTHTML(data){
+  gel("mqtt-server").value = data.server;
+  gel("mqtt-topic").value = data.topic;
+  gel("mqt-user").value = data.user;
+  gel("mqtt-pass").value = data.pass;
 }
 
 async function checkStatus(url = "status.json") {
