@@ -38,13 +38,24 @@ mqtt_config_t* mqtt_config;
 esp_mqtt_client_handle_t* mqtt_start(void)
 {
 	mqtt_config = wifi_manager_get_mqtt_config();
+
 	ESP_LOGI( TAG, "Connecting to mqtt server %s", mqtt_config->server );
+
+    ESP_LOGI( TAG, "Server string length: %d", strlen(mqtt_config->server) );
+
+
+    if (strlen(mqtt_config->server) < 4){
+        return NULL;
+    }
+
     
     esp_mqtt_client_config_t mqtt_cfg = {
         .uri = (char*)mqtt_config->server,
         .username = (char*)mqtt_config->user,
         .password = (char*)mqtt_config->pass,
     };
+    
+        
 
 
     mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
