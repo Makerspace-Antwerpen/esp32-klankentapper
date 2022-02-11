@@ -52,6 +52,7 @@ void blinkLED( void* parameters ) {
         data = (void *) malloc(sizeof(double));
         xQueueReceive(dBaMeasure->dBaQueue, data, (TickType_t) 1000);
         double db = *(double *) data;
+        free(data);
         movingAverage->addValue(db);
         if (counter >= 40){
 			if ( mqtt_on ) {
