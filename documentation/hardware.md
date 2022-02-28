@@ -2,7 +2,7 @@
 
 ## Attach the O-ring onto the microphone cover
 
-image
+![O-ring](/documentation/imgs/hardware_oring.png)
 
 *We start with this step to make sure the glue has hardened before using the cover.*
 
@@ -24,7 +24,7 @@ Process
 
 ## Preperation of the junction box
 
-image
+![Junction box](/documentation/imgs/hardware_junction_box.png)
 
 Supplies
 
@@ -38,7 +38,7 @@ Process
 
 ## Preperation of the base plate
 
-image
+![Baseplate](/documentation/imgs/\hardware_baseplate.png)
 
 Supplies
 
@@ -53,9 +53,9 @@ Process
 
 ## Make the USB cable thicker
 
-image
+![Cable](/documentation/imgs/\hardware_cable.png)
 
-*Because the USB cable is too thin to be properly closed with the cable gland, we make it thicker with insulating tape.*
+*We are making the USB cable thicker with insulating tape because the USB cable is too thin to be properly closed with the cable gland.*
 
 Supplies
 
@@ -68,7 +68,7 @@ Process
 
 ## Mount the ESP32
 
-image
+![ESP32](/documentation/imgs/\hardware_ESP32.png)
 
 Supplies
 
@@ -85,6 +85,8 @@ Process
 4. Pull the USB cable trough the cable gland and secure it into the ESP32.
 5. Screw the sealing nut onto the cable gland.
 
+![Cable insert](/documentation/imgs/\hardware_cable_insert.png)
+
 ## Wire the microphone
 
 Supplies
@@ -98,11 +100,11 @@ Process
 1. Attach the cables to the following pins: VDD, GND, SDATA, BCLK and LRCLK on the PCB.
 2. Make notes of which colour you connected to which pin.
 
-image
+![Microphone](/documentation/imgs/\hardware_microphone.png)
 
 ## Connect the microphone to the ESP32
 
-image
+![GPIO connected](/documentation/imgs/\hardware_gpio_connected.png)
 
 Supplies
 
@@ -114,15 +116,15 @@ Process
 2. Pull the cables through the cable gland.
 3. Attach the 5 cables using your notes to the ESP32, as shown in the image below.
 
-image
+![GPIO](/documentation/imgs/\hardware_gpio.png)
 
-⚠️ **Attention!** The 3D printed cable gland is brittle. Don't screw it on to tight or it will break.
+⚠️ **Attention!** The 3D printed cable gland is brittle. Don't screw it on too tight or it will break.
 
 ⚠️ **Attention!** The PCB can break if the connections are incorrect! Make sure the connections are properly connected.
 
 ## Cover up the microphone
 
-image
+![ESP32](/documentation/imgs/\hardware_cover.png)
 
 Supplies
 
@@ -136,7 +138,7 @@ Process
 
 ## Mount the windshield
 
-image
+![ESP32](/documentation/imgs/\hardware_windshield.png)
 
 Supplies
 
