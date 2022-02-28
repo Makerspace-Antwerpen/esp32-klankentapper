@@ -38,7 +38,7 @@ Process
 
 ## Preperation of the base plate
 
-![Baseplate](/documentation/imgs/\hardware_baseplate.png)
+![Baseplate](/documentation/imgs/hardware_baseplate.png)
 
 Supplies
 
@@ -53,7 +53,7 @@ Process
 
 ## Make the USB cable thicker
 
-![Cable](/documentation/imgs/\hardware_cable.png)
+![Cable](/documentation/imgs/hardware_cable.png)
 
 *We are making the USB cable thicker with insulating tape because the USB cable is too thin to be properly closed with the cable gland.*
 
@@ -68,7 +68,7 @@ Process
 
 ## Mount the ESP32
 
-![ESP32](/documentation/imgs/\hardware_ESP32.png)
+![ESP32](/documentation/imgs/hardware_ESP32.png)
 
 Supplies
 
@@ -85,7 +85,7 @@ Process
 4. Pull the USB cable trough the cable gland and secure it into the ESP32.
 5. Screw the sealing nut onto the cable gland.
 
-![Cable insert](/documentation/imgs/\hardware_cable_insert.png)
+![Cable insert](/documentation/imgs/hardware_cable_insert.png)
 
 ## Wire the microphone
 
@@ -100,11 +100,11 @@ Process
 1. Attach the cables to the following pins: VDD, GND, SDATA, BCLK and LRCLK on the PCB.
 2. Make notes of which colour you connected to which pin.
 
-![Microphone](/documentation/imgs/\hardware_microphone.png)
+![Microphone](/documentation/imgs/hardware_microphone.png)
 
 ## Connect the microphone to the ESP32
 
-![GPIO connected](/documentation/imgs/\hardware_gpio_connected.png)
+![GPIO connected](/documentation/imgs/hardware_gpio_connected.png)
 
 Supplies
 
@@ -116,7 +116,7 @@ Process
 2. Pull the cables through the cable gland.
 3. Attach the 5 cables using your notes to the ESP32, as shown in the image below.
 
-![GPIO](/documentation/imgs/\hardware_gpio.png)
+![GPIO](/documentation/imgs/hardware_gpio.png)
 
 ⚠️ **Attention!** The 3D printed cable gland is brittle. Don't screw it on too tight or it will break.
 
@@ -124,7 +124,7 @@ Process
 
 ## Cover up the microphone
 
-![ESP32](/documentation/imgs/\hardware_cover.png)
+![ESP32](/documentation/imgs/hardware_cover.png)
 
 Supplies
 
@@ -138,7 +138,7 @@ Process
 
 ## Mount the windshield
 
-![ESP32](/documentation/imgs/\hardware_windshield.png)
+![ESP32](/documentation/imgs/hardware_windshield.png)
 
 Supplies
 
