@@ -138,7 +138,7 @@ Process
 
 ## Mount the windshield
 
-![ESP32](/documentation/imgs/hardware_windshield.png)
+![Windshield](/documentation/imgs/hardware_windshield.png)
 
 Supplies
 
