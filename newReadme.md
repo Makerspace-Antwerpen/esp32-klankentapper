@@ -28,7 +28,7 @@ The first filter used flattens the frequency response of the used microphone. Th
 ### RMS and DBA calculation
 We now have a leveled and then weighted audio signal. The next step is calculating a DBA value from this signal. The time interval over which this value is calculated is important. We chose for the fast standard. See [this](https://en.wikipedia.org/wiki/Sound_level_meter#Time_weighting) link for more information. The fast standard measures the sound level over an interval of 1/8th of a second. Therefore, we use 6000 (48000/8) samples for each rms DBA calculation. 
 To calculate the RMS value we use the following formula:  
-![formula](https://render.githubusercontent.com/render/math?math=RMS=\sqrt{\frac{\sum_{i=0}^{n} s^2}{n}})  
+![formula](https://render.githubusercontent.com/render/math?math=RMS=\sqrt{\frac{\sum_{0}^{n}s^2}{n}})  
 Where:  
 ![formula](https://render.githubusercontent.com/render/math?math=n=6000))  
 ![formula](https://render.githubusercontent.com/render/math?math=s_n=sample_n)  
