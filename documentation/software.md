@@ -1,8 +1,6 @@
 # Klankentapper software
 
-In order to utilize the code we will need ESP-IDF. ESP-IDF is a powerfull development framework for building and flashing firmware onto an ESP32 board.
-
-The ESP32 boards are built and flashed by default. The next steps will explain how you can build and flash the klankentapper project on your own but if you only need to flash/update the firmware you can skip to [this step](#flashing-the-esp32).
+In order to utilize the klankentapper project we will need ESP-IDF. ESP-IDF is a powerfull development framework for building and flashing firmware onto an ESP32 board.
 
 ## Installing ESP-IDF
 
@@ -11,6 +9,8 @@ The ESP32 boards are built and flashed by default. The next steps will explain h
 By following [this link](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) you will be able to download ESP-IDF. Click on the link of your operating system and follow the installation steps. Do this until you reach the step "First Steps on ESP-IDF." You can finish reading the documentation but we do not need to start our own project.
 
 ![ESP-IDF download](/documentation/imgs/esp_idf_download.png)
+
+The ESP32 boards are built and flashed by default. The next steps will explain how you can build and flash the klankentapper project on your own but if you only need to flash/update the firmware you can skip to [this step](#flashing-the-esp32).
 
 ## Building the project
 
