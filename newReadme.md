@@ -27,18 +27,18 @@ The first filter used flattens the frequency response of the used microphone. Th
 ### RMS and DBA calculation
 We now have a leveled and then weighted audio signal. The next step is calculating a DBA value from this signal. The time interval over which this value is calculated is important. We chose for the fast standard. See [this](https://en.wikipedia.org/wiki/Sound_level_meter#Time_weighting) link for more information. The fast standard measures the sound level over an interval of 1/8th of a second. Therefore, we use 6000 (48000/8) samples for each rms DBA calculation. 
 To calculate the RMS value we use the following formula:  
-$RMS=\sqrt{\frac{\sum_{i=0}^{n} s^2}{n}}$  
+![formula](https://render.githubusercontent.com/render/math?math=RMS=\sqrt{\frac{\sum_{i=0}^{n} s^2}{n}})  
 Where:  
-$n=6000$  
-$s_n=sample_n$  
+![formula](https://render.githubusercontent.com/render/math?math=n=6000))  
+![formula](https://render.githubusercontent.com/render/math?math=s_n=sample_n)  
 After this we calculate the DBA value from this RMS value with the following formula:  
-$DBA=MIC\_OFSET\_DB+MIC\_REFF\_DB+\frac{20\log{RMS}}{MIC\_REFF\_AMP}$  
+![formula](https://render.githubusercontent.com/render/math?math=DBA=MIC\_OFSET\_DB+MIC\_REFF\_DB+\frac{20\log{RMS}}{MIC\_REFF\_AMP})  
 Where:  
-$MIC\_OFSET\_DB=$ Correction db for dc value of mic. 0 in our case.  
-$MIC\_REFF\_DB=$ Sound level at which the $MIC\_REFF\_AMP$ occurs.  
-$MIC\_REFF\_AMP=$ RMS value that occurs at $MIC\_REFF\_DB$ sound level.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC\_OFSET\_DB=) Correction db for dc value of mic. 0 in our case.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB=) Sound level at which the ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP) occurs.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP=) RMS value that occurs at ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB) sound level.  
 
-The $MIC\_REFF\_DB$ and $MIC\_REFF\_AMP$ values are experimentally acquired.
+The ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP) values are experimentally acquired.
 
 
 
