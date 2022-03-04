@@ -1,4 +1,0 @@
-# Klankentappers
-
-## What is sound?
-

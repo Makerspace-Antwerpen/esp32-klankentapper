@@ -17,6 +17,7 @@ We have chosen this microphone based on it's almost flat frequency response out 
 This chip sends out a PDM signal by default. By using the ADAU 7002 converter chip we are able to convert this signal to I2S, which is usable by for example our ESP32 and a variety of other microcontrollers.
 
 ### IIR filters
+
 Our microphone, although carefully selected for the flattest possible frequency response, still has a frequency response that isn't completely flat. This is a problem that needs to be sorted before we can use the measurements for anything meaningful.
 We also want to apply an A weighting filter to our signal, so the end values represent a DBA measurement. You can read more about the A-weighting of audio signals on: https://en.wikipedia.org/wiki/A-weighting
 
@@ -27,3 +28,14 @@ The first filter used flattens the frequency response of the used microphone. Th
 ### RMS and DBA calculation
 
 ## 2. Wifi and MQTT setup
+
+The klankentapper project is a ESP-IDF project with Wifi+Mqtt settings flow (access point with captive portal to get wifi and mqtt settings before going into station mode).
+
+* Flash device with `idf.py build flash monitor`
+* On smartphone, connect to "esp32" access point
+* A captive portal appears
+* Provide MQTT settings and save
+* Select WiFi to connect to and provide password, device will reset and connect
+* Visit device's IP address with browser to update settings
+
+You can find a comprehensive explanation inside our [documentation readme](/documentation/readme.md).

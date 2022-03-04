@@ -2,11 +2,11 @@
 
 ## Starting the klankentapper
 
-The first time the ESP32 is provided with power it will act as an access point called "esp32". You will be able to connect to this access point with your smartphone/computer. **Attention!** After connecting to this access point you will not be able to connect to the internet for a while!
+The first time the ESP32 is provided with power it will act as an access point. You will be able to connect to this access point with your smartphone/computer via the network called "esp32". **Attention!** After connecting to this network you will not be able to connect to the internet for a while!
 
 ![Access point](/documentation/imgs/wifi_access_point.png)
 
-After connecting to this access point the next browser page will open:
+After connecting to this network the next browser page will open:
 
 ![Browser page](/documentation/imgs/wifi_browser.png)
 
@@ -26,24 +26,17 @@ When the connection is established you are greeted with an ip-address which we w
 
 Connect to your favourite network, open up your internet browser and type in the ip-address you have monitored in the previous step. this should open up the same browser from before, now with full internet accessibility.
 
-## Setting up MQTT
+## Connecting with the MQTT broker
 
-Next up is configuring our MQTT connection. The next step will explain how you can setup a MQTT connection with your favourite broker of choice. If you don't have any MQTT broker you can follow our tutorial to set one up via [this link](mqtt.md).
+Next up is configuring our MQTT connection. The next step will explain how you can setup a MQTT connection with your favourite broker of choice. If you don't have any MQTT broker you can follow our tutorial to set one up via [this link](/documentation/mqtt.md).
 
 Setting up a MQTT connection on your klankentapper is rather simple. You are able to fill in 4 parameters:
 
-- Broker url
-- Topic
+- Broker url, Type in mqtt:// followed by your broker ip-address.
+- Topic, specify to which topic you want to publish.
 - Username
 - Password
 
+Both username and password are optional. These settings only need to be filled in when you need to sign in to your broker by using your credentials.
+
 ![MQTT settings](/documentation/imgs/mqtt_settings.png)
-
-### Broker url
-
-If you want to publish the data of your klankentapper you will need to do so to a MQTT broker. Just type in mqtt:// followed by to ip of your MQTT broker:
-
-    mqtt://ip_broker
-
-### Topic
-
