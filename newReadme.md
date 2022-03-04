@@ -30,16 +30,16 @@ We now have a leveled and then weighted audio signal. The next step is calculati
 To calculate the RMS value we use the following formula:  
 ![formula](https://render.githubusercontent.com/render/math?math=RMS=\sqrt{\frac{\sum_{0}^{n}s^2}{n}})  
 Where:  
-![formula](https://render.githubusercontent.com/render/math?math=n=6000))  
+![formula](https://render.githubusercontent.com/render/math?math=n=6000)  
 ![formula](https://render.githubusercontent.com/render/math?math=s_n=sample_n)  
 After this we calculate the DBA value from this RMS value with the following formula:  
-![formula](https://render.githubusercontent.com/render/math?math=DBA=MIC\_OFSET\_DB+MIC\_REFF\_DB+\frac{20\log{RMS}}{MIC\_REFF\_AMP})  
+![formula](https://render.githubusercontent.com/render/math?math=DBA=MIC%5C_OFSET%5C_DB%2BMIC%5C_REFF%5C_DB%2B\frac{20\log{RMS}}{MIC%5C_REFF%5C_AMP})  
 Where:  
-![formula](https://render.githubusercontent.com/render/math?math=MIC\_OFSET\_DB=) Correction db for dc value of mic. 0 in our case.  
-![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB=) Sound level at which the ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP) occurs.  
-![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP=) RMS value that occurs at ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB) sound level.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_OFSET%5C_DB=) Correction db for dc value of mic. 0 in our case.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB=) Sound level at which the ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) occurs.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP=) RMS value that occurs at ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) sound level.  
 
-The ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_AMP) values are experimentally acquired.
+The ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) values are experimentally acquired.
 
 
 
