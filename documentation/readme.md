@@ -1,12 +1,12 @@
-# Build your own sound tapper
+# Build your own klankentapper
 
-![Sound tapper](/documentation/imgs/hardware_windshield.png)
+![Klankentapper](/documentation/imgs/hardware_windshield.png)
 
 ## Process
 
-1. Prepare the ESP32
+1. [Prepare the ESP32](software.md)
 2. [Build the hardware](hardware.md)
-3. Wifi and MQTT configuration
+3. [Wifi and MQTT configuration](wifi.md)
 
 ## Supplies
 
