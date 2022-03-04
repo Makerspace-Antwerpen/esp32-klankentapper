@@ -4,7 +4,7 @@
 
 ### General overview
 
-afbeelding
+![Flow overview](/documentation/imgs/audio-measure-flow.drawio.png)
 
 ### Microphone
 
