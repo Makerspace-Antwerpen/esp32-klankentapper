@@ -48,7 +48,7 @@ The ![formula](https://render.githubusercontent.com/render/math?math=MIC\_REFF\_
 The klankentapper project is a ESP-IDF project with Wifi+Mqtt settings flow (access point with captive portal to get wifi and mqtt settings before going into station mode).
 
 * Flash device with `idf.py build flash monitor`
-* On smartphone, connect to "esp32" access point
+* On smartphone, connect to "esp32" access point with password "esp32pwd"
 * A captive portal appears
 * Provide MQTT settings and save
 * Select WiFi to connect to and provide password, device will reset and connect

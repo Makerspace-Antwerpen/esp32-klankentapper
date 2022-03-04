@@ -20,13 +20,9 @@ Now open the Executable.
 
 ![ESP-IDF](/documentation/imgs/esp_idf.png)
 
-The next step is to navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be:
+The next step is to navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be: `cd C:\Users\user_name\Desktop\esp32-klankentapper`
 
-    cd C:\Users\user_name\Desktop\esp32-klankentapper
-
-If you are in the right directory, you are now able to build the project by using the following command:
-
-    idf.py build
+If you are in the right directory, you are now able to build the project by using the following command: `idf.py build`
 
 ## Flashing the ESP32
 
@@ -36,13 +32,9 @@ First you will need to open the ESP-IDF executable.
 
 ![ESP-IDF](/documentation/imgs/esp_idf.png)
 
-Navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be:
+Navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be: `cd C:\Users\user_name\Desktop\esp32-klankentapper`
 
-    cd C:\Users\user_name\Desktop\esp32-klankentapper
-
-If you are in the right directory, you are now able to build the project by using the following command:
-
-    idf.py flash
+If you are in the right directory, you are now able to build the project by using the following command: `idf.py flash`
 
 ## Setting up the Wifi
 

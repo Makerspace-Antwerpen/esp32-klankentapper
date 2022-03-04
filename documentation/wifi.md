@@ -2,7 +2,9 @@
 
 ## Starting the klankentapper
 
-The first time the ESP32 is provided with power it will act as an access point. You will be able to connect to this access point with your smartphone/computer via the network called "esp32". **Attention!** After connecting to this network you will not be able to connect to the internet for a while!
+The first time the ESP32 is provided with power it will act as an access point. You will be able to connect to this access point with your smartphone/computer via the network called "esp32" with the password "esp32pwd".
+
+**Attention!** After connecting to this network you will not be able to connect to the internet for a while!
 
 ![Access point](/documentation/imgs/wifi_access_point.png)
 
@@ -16,9 +18,7 @@ Firstly we will setup the wifi. At the bottom of the page you will be able to ch
 
 ![Wifi password](/documentation/imgs/wifi_password.png)
 
-This will take a while. You can monitor the connection phase by opening the ESP-IDF executable, moving to the right directory and typing the following command:
-
-    idf.py monitor
+This will take a while. You can monitor the connection phase by opening the ESP-IDF executable, moving to the right directory and typing the following command: `idf.py monitor`.
 
 When the connection is established you are greeted with an ip-address which we will use to configure our MQTT connection.
 
