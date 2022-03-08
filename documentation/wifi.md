@@ -28,7 +28,7 @@ Connect to your favourite network, open up your internet browser and type in the
 
 ## Connecting with the MQTT broker
 
-Next up is configuring our MQTT connection. The next step will explain how you can setup a MQTT connection with your favourite broker of choice. If you don't have any MQTT broker you can follow our tutorial to set one up via [this link](/documentation/mqtt.md).
+Next up is configuring our MQTT connection, we will explain how you can setup a MQTT connection with your favourite broker of choice. If you don't have any MQTT broker you can follow our tutorial to set one up via [this link](data_processing.md#mqtt-broker) or use the publicly available Mosquitto Broker via `mqtt://test.mosquitto.org`.
 
 Setting up a MQTT connection on your klankentapper is rather simple. You are able to fill in 4 parameters:
 

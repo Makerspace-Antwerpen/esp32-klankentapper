@@ -34,7 +34,7 @@ Supplies
 Process
 
 1. Make place for both cable glands by opening up one of the openings at either side of the junction box. **Attention!** Make sure the openings are both across from eachother and on the small sides of the junction box.
-2. Plug the holes ate the bottom of the junction box with the included rubber stops.
+2. Plug the holes at the bottom of the junction box with the included rubber stops.
 
 ## Preperation of the base plate
 
@@ -48,8 +48,8 @@ Supplies
 
 Process
 
-1. Secure the 4 standoffs onto the base plate (the 3 smaller holes).
-2. Secure the base plate into the junction box.
+1. Secure the 3 standoffs onto the base plate (the 3 smaller holes).
+2. Secure the base plate into the junction box by using the 4 M3x8 screws.
 
 ## Make the USB cable thicker
 
@@ -80,7 +80,7 @@ Supplies
 Process
 
 1. Secure the ESP32 with the screws onto the standoffs.
-2. Screw the cable gland onto the junction box.
+2. Screw the cable gland onto the junction box. Make sure it's on the side of the ESP32.
 3. Remove the sealing nut of the cable gland and slide it over the USB cable.
 4. Pull the USB cable trough the cable gland and secure it into the ESP32.
 5. Screw the sealing nut onto the cable gland.
