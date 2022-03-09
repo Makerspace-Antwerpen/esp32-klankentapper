@@ -1,31 +1,56 @@
-# ESP soundmeter
+# ESP32-Klankentapper
 
-## 1. How to measure sound
+Accurate dBA measurements with an ESP32 and an I2S MEMS microphone, for citizen science projects.
 
-### General overview
+![Windshield](/documentation/imgs/hardware_windshield.png)
+
+## 1. About ESP32-Klankentapper
+
+The ESP32-Klankentapper is a sensor which serves to measure ambient noise around your house. You are able to observe this amount of noise around your house on an online dashboard. The sensor includes a microcontroller (ESP32 WROOM) and a custom designed PCB containing a powerfull MEMS microphone. The microcontroller is able to [calculate](#rms-and-dba-calculation) the amount of sound in dBA very precisely. This is the measure of sound tuned to the human hearing.
+
+An ESP32-Klankentapper is an open source ambient sound meter, developed by [Makerspace Antwerpen](https://www.makerspacea.be/) for the [imec Hackable City of Things](https://www.imeccityofthings.be/en/projecten/hackable-city-of-things_2) initiative, in collaboration with [Gents Milieufront](https://www.gentsmilieufront.be/) and [Bewonersgroep Luchtbal Noord](https://www.facebook.com/BewonersgroepLuchtbalNoord/), and scientifically supported by [imec Waves onderzoeksgroep](https://www.waves.intec.ugent.be/).
+
+## 2. What is an ESP32-Klankentapper?
+
+A [hardware](/hardware/) sensor with [software](/main/), a [manual](/documentation/) and [cloud components](/documentation/data_processing.md).
+
+### Hardware to build an ambient noise meter
+
+This repository includes the [hardware design](/hardware/) to create an accurate dBA sensor based on a ESP32 and a custom designed PCB with the [Infineon IM69D120](https://www.infineon.com/cms/en/product/sensor/mems-microphones/mems-microphones-for-consumer/im69d120/) microphone. Furthermore, we used off-the-shelf parts, 3D prints and lasercuts as much as possible.
+
+In this repository you can also find the [bill of materials](/documentation/readme.md), the process of [building a Klankentapper](/documentation/hardware.md), the [software setup](/documentation/software.md) and our [connectivity setup](/documentation/connectivity.md).
+
+#### Choice of technology
+
+After comparing the ST MP34DT01-M, Knowles SPH0645LM4H, Vesper VM3000 and Infineon IM69D120 microphones, we concluded that the latter can be used with good accuracy (<±1.5dBA) to measure environmental noise. The accuracy of the Infineon IM69D120 microphone and the hardware of the whole sound meter were thoroughly tested in the anechoic chamber of [Imec Waves](https://www.waves.intec.ugent.be/).
+
+![PCB](/documentation/imgs/hardware_pcb.png)
+
+We have created a [custom designed PCB](https://github.com/Makerspace-Antwerpen/klankentappers-PCB) for our Infineon IM69D120 microphone. Besides the microphone this PCB also includes a [Analog Devices ADAU7002](https://www.analog.com/en/products/adau7002.html#product-overview) PDM-to-I2S converter chip. This allows you to read the audio data in both I2S and PDM format. Thanks to the consistency of the microphones among each other, we are able to use them with 1 standerd calibration (per batch produced).
+
+### Software to analyse ambient noise
+
+This repository includes the [software](/main/) used to correctly read the microphone data into the ESP32, correct it with IIR filters, calibrate it and correctly calculate dBA.
 
 ![Flow overview](/documentation/imgs/audio-measure-flow.drawio.png)
 
-### Microphone
 
-We will be using a MEMS microphone, the Infineon IM69D120 to be more specific. Follow [this link](https://github.com/Makerspace-Antwerpen/klankentappers-PCB/blob/master/README.md) for further information on how this microphone works.
 
-We have chosen this microphone based on it's almost flat frequency response out of the box. We still need to filter the signal to get an optimal signal to work with.
+#### IIR filters
+
+Our microphone, although carefully selected for the flattest possible frequency response, still has a frequency response that isn't completely flat. This is a problem that needs to be sorted before we can use the measurements for anything meaningful.
 
 ![Frequency response](/documentation/imgs/frequency_response.png)
 
-This chip sends out a PDM signal by default. By using the ADAU 7002 converter chip we are able to convert this signal to I2S, which is usable by for example our ESP32 and a variety of other microcontrollers.
-
-### IIR filters
-
-Our microphone, although carefully selected for the flattest possible frequency response, still has a frequency response that isn't completely flat. This is a problem that needs to be sorted before we can use the measurements for anything meaningful.
 We also want to apply an A weighting filter to our signal, so the end values represent a DBA measurement. You can read more about the A-weighting of audio signals on [this link](https://en.wikipedia.org/wiki/A-weighting)
+
+![A-weighting](/documentation/imgs/a_weighting.png)
 
 To achieve both of those things, we use IIR filters. These are a kind of digital filter that can be applied to a digital signal. You can read more about IIR filters on [this link](https://en.wikipedia.org/wiki/Digital_filter). The filter code used in iir-filter.hpp is universal. It is the filter coefficients that dictate the characteristics of the filter. Acquiring these filter coefficients requires some advanced mathematics that go out of scope for this document. You can find the used filter coefficients in the codebase on line 31-34 of [dbaMeasure.cpp](/main/dbaMeasure.cpp). Be advised that these values are sample rate specific and can thus be only used with a 48kHz sample rate.
 
 The first filter used flattens the frequency response of the used microphone. The second filter applies the A-weighting to the audio signal before the RMS is calculated.
 
-### RMS and DBA calculation
+#### RMS and DBA calculation
 
 We now have a leveled and then weighted audio signal. The next step is calculating a DBA value from this signal. The time interval over which this value is calculated is important. We chose for the fast standard. See [this](https://en.wikipedia.org/wiki/Sound_level_meter#Time_weighting) link for more information. The fast standard measures the sound level over an interval of 1/8th of a second. Therefore, we use 6000 (48000/8) samples for each rms DBA calculation. 
 To calculate the RMS value we use the following formula:  
@@ -42,7 +67,7 @@ Where:
 
 The ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) values are experimentally acquired.
 
-## 2. Wifi and MQTT setup
+## 4. Wifi and MQTT setup
 
 The klankentapper project is a ESP-IDF project with Wifi+Mqtt settings flow (access point with captive portal to get wifi and mqtt settings before going into station mode).
 
@@ -52,5 +77,7 @@ The klankentapper project is a ESP-IDF project with Wifi+Mqtt settings flow (acc
 * Provide MQTT settings and save
 * Select WiFi to connect to and provide password, device will reset and connect
 * Visit device's IP address with browser to update settings
+
+![Connectivity portal](/documentation/imgs/wifi_browser.png)
 
 You can find a comprehensive explanation inside our [documentation readme](/documentation/readme.md).

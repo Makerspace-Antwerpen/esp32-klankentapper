@@ -1,6 +1,6 @@
 # Data processing
 
-This document possesses some tutorials on how to process/visualize your Klankentapper data via a Raspberry Pi. We will provide links to the original websites if you want to setup these softwares yourself.
+This document possesses some tutorials on how to process/visualize your Klankentapper data via a Raspberry Pi. We will provide links to the original websites if you want to setup these applications yourself.
 
 ![Visualisation](/documentation/imgs/visualisation.png)
 
@@ -12,9 +12,9 @@ In order to be able to subscribe to your set topic you will need a MQTT broker. 
 
 We will store our data on a database, here we will be using the open source, time series based [InfluxDB](https://www.influxdata.com/).
 
-## Processing software
+## Processing
 
-Storing or data is fun and all but what about being able to perceive said data? We will be using two different softwares for this, [Grafana](https://grafana.com/) and [Node-Red](https://nodered.org/).
+Storing or data is fun and all but what about being able to perceive said data? We will be using two different application for this, [Grafana](https://grafana.com/) and [Node-Red](https://nodered.org/).
 
 ## Visualisation
 
@@ -22,7 +22,7 @@ Storing or data is fun and all but what about being able to perceive said data? 
 
 ![Node-red](/documentation/imgs/node_red.png)
 
-The most important role for Node-red in our setup is getting our Klankentapper data to InfluxDB by subscribing to our set topic, converting incoming data to usable data and then pushing it to our database.
+The most important role for Node-red in our setup is getting our Klankentapper data to InfluxDB by subscribing to our set topic, converting incoming data to usable values and then pushing it to our database.
 
 Add in a "MQTT In" node and fill in your topic:
 
@@ -41,4 +41,3 @@ Grafana is used for converting our data into a visual graph, which makes monitor
 ![Grafana](/documentation/imgs/grafana.png)
 
 The only thing we will need is the InfluxDB plugin inside our Grafana web interface:
-
