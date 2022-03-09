@@ -1,4 +1,4 @@
-# Klankentapper wifi
+# Klankentapper connectivity
 
 ## Starting the klankentapper
 
