@@ -8,6 +8,8 @@ Accurate dBA measurements with an ESP32 and an I2S MEMS microphone, for citizen 
 
 The ESP32-Klankentapper is a sensor which serves to measure ambient noise around your house. You are able to observe this amount of noise around your house on an online dashboard. The sensor includes a microcontroller (ESP32 WROOM) and a custom designed PCB containing a powerfull MEMS microphone. The microcontroller is able to [calculate](#rms-and-dba-calculation) the amount of sound in dBA very precisely. This is the measure of sound tuned to the human hearing.
 
+The ESP32-Klankentapper is a class 2 dBA meter, with a measured ±0.5dBA error at 1kHz, and ±0.7dBA variation between microphones. The noise floor of the sensor is 24.5dBA. The ESP32-Klankentapper can therefore be used as a ‘general grade’ meter. It is ideal for use in noise at work assessments, basic environmental measurements, entertainment noise, industrial hygiene, construction noise, and vehicle noise.
+
 An ESP32-Klankentapper is an open source ambient sound meter, developed by [Makerspace Antwerpen](https://www.makerspacea.be/) for the [imec Hackable City of Things](https://www.imeccityofthings.be/en/projecten/hackable-city-of-things_2) initiative, in collaboration with [Gents Milieufront](https://www.gentsmilieufront.be/) and [Bewonersgroep Luchtbal Noord](https://www.facebook.com/BewonersgroepLuchtbalNoord/), and scientifically supported by [imec Waves onderzoeksgroep](https://www.waves.intec.ugent.be/).
 
 ## 2. What is an ESP32-Klankentapper?
@@ -33,8 +35,6 @@ We have created a [custom designed PCB](https://github.com/Makerspace-Antwerpen/
 This repository includes the [software](/main/) used to correctly read the microphone data into the ESP32, correct it with IIR filters, calibrate it and correctly calculate dBA.
 
 ![Flow overview](/documentation/imgs/audio-measure-flow.drawio.png)
-
-
 
 #### IIR filters
 
@@ -66,6 +66,18 @@ Where:
 ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP=) RMS value that occurs at ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) sound level.  
 
 The ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) values are experimentally acquired.
+
+#### dBA measurement test results
+
+The quality of the ESP32-Klankentapper was tested in the anechoic chamber of the [imec waves research group](https://www.waves.intec.ugent.be/) at the University of Ghent in Belgium.
+
+![Anechoic chamber](/documentation/imgs/anechoicchamber.png)
+
+Below are the test results of a 1kHz tone at different dBA levels. The dBA levels of the calibrated test microphone are on the X-axis, and dBA levels of the ESP32-Klankentapper are on the Y-axis. 
+
+![1kHz dBA measurements](/documentation/imgs/naked1_Tone.dba.png)
+
+From these tests, we learned that the ESP32-Klankentapper sound level meter has an error of ±0.5dBA (for measurements above 30dBA) with a noise floor of 24.5dBA. Variations between different ESP32-Klankentappers is ±0.7dBA. Other tests with different spectra (e.g. pink noise) confirmed these error rates beyond 1kHz. These tests show that the ESP32-Klankentapper can be used as a general grade class 2 sound level meter.
 
 ## 4. Wifi and MQTT setup
 
