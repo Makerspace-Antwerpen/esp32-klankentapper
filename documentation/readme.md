@@ -6,9 +6,9 @@
 
 1. [Prepare the ESP32](software.md)
 2. [Build the hardware](hardware.md)
-3. [Wifi and MQTT configuration](wifi.md)
+3. [Wifi and MQTT configuration](connectivity.md)
 
-## Supplies
+## Bill of materials
 
 ![Hardware](/documentation/imgs/hardware_bom.png)
 

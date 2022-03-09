@@ -79,17 +79,10 @@ Below are the test results of a 1kHz tone at different dBA levels. The dBA level
 
 From these tests, we learned that the ESP32-Klankentapper sound level meter has an error of ±0.5dBA (for measurements above 30dBA) with a noise floor of 24.5dBA. Variations between different ESP32-Klankentappers is ±0.7dBA. Other tests with different spectra (e.g. pink noise) confirmed these error rates beyond 1kHz. These tests show that the ESP32-Klankentapper can be used as a general grade class 2 sound level meter.
 
-## 4. Wifi and MQTT setup
 
-The klankentapper project is a ESP-IDF project with Wifi+Mqtt settings flow (access point with captive portal to get wifi and mqtt settings before going into station mode).
+## Build your own Klankentapper
 
-* Flash device with `idf.py build flash monitor`
-* On smartphone, connect to "esp32" access point with password "esp32pwd"
-* A captive portal appears
-* Provide MQTT settings and save
-* Select WiFi to connect to and provide password, device will reset and connect
-* Visit device's IP address with browser to update settings
-
-![Connectivity portal](/documentation/imgs/wifi_browser.png)
-
-You can find a comprehensive explanation inside our [documentation readme](/documentation/readme.md).
+1. [Bill of materials](/documentation/readme.md)
+2. [Prepare the ESP32](/documentation/software.md)
+3. [Build the hardware](/documentation/hardware.md)
+4. [Wifi and MQTT configuration](/documentation/connectivity.md)
