@@ -1,6 +1,6 @@
 # Klankentappers hardware
 
-## Attach the O-ring onto the microphone cover
+## Glue the O-ring to the microphone cover
 
 ![O-ring](/documentation/imgs/hardware_oring.png)
 
@@ -16,13 +16,13 @@ Supplies
 Process
 
 1. Carefully put 2 to 3 drops of superglue onto the o-ring.
-2. Use the tweezers to attach the o-ring onto the microphone cover.
+2. Use tweezers to glue the o-ring to the microphone cover.
 
 ⚠️ **Attention!** Superglue sticks immediately and cannot be repaired, so make sure that the o-ring is centered immediately.
 
 ⚠️ **Attention!** Make sure that the hole in the cover stays open. Use a needle to reopen the hole, if necessary.
 
-## Preperation of the junction box
+## Preparation of the junction box
 
 ![Junction box](/documentation/imgs/hardware_junction_box.png)
 
@@ -33,10 +33,10 @@ Supplies
 
 Process
 
-1. Make place for both cable glands by opening up one of the openings at either side of the junction box. **Attention!** Make sure the openings are both across from eachother and on the small sides of the junction box.
+1. Make place for both cable glands by opening up one of the openings at either side of the junction box. **Attention!** Make sure the openings are both across from eachother and on the shorter sides of the junction box.
 2. Plug the holes at the bottom of the junction box with the included rubber stops.
 
-## Preperation of the base plate
+## Preparation of the base plate
 
 ![Baseplate](/documentation/imgs/hardware_baseplate.png)
 
@@ -55,7 +55,7 @@ Process
 
 ![Cable](/documentation/imgs/hardware_cable.png)
 
-*We are making the USB cable thicker with insulating tape because the USB cable is too thin to be properly closed with the cable gland.*
+*We are making the USB cable thicker with insulating tape because the USB cable is too thin to be properly sealed with the cable gland.*
 
 Supplies
 
@@ -74,16 +74,18 @@ Supplies
 
 - USB-C cable
 - Cable gland
-- ESP32
+- ESP32 and pinheaders
+- Soldering iron & solder
 - 3 M2.5x10 screws
 
 Process
 
-1. Secure the ESP32 with the screws onto the standoffs.
-2. Screw the cable gland onto the junction box. Make sure it's on the side of the ESP32.
-3. Remove the sealing nut of the cable gland and slide it over the USB cable.
-4. Pull the USB cable trough the cable gland and secure it into the ESP32.
-5. Screw the sealing nut onto the cable gland.
+1. Solder the ESP32's pin headers. **Attention!** Make sure to solder them on top of the ESP32, not on the bottom, so we can easily add connectors later.
+2. Secure the ESP32 with the screws onto the standoffs.
+3. Screw the cable gland onto the junction box. Make sure it's on the side of the ESP32.
+4. Remove the sealing nut of the cable gland and slide it over the USB cable.
+5. Pull the USB cable trough the cable gland and secure it into the ESP32.
+6. Screw the sealing nut onto the cable gland.
 
 ![Cable insert](/documentation/imgs/hardware_cable_insert.png)
 
@@ -122,7 +124,9 @@ Process
 
 ⚠️ **Attention!** The PCB can break if the connections are incorrect! Make sure the connections are properly connected.
 
-## Cover up the microphone
+⚠️ **Attention!** Be careful as the SMD pin headers on the PCB can easily break off if force is applied on them. 
+
+## Cover the microphone
 
 ![ESP32](/documentation/imgs/hardware_cover.png)
 

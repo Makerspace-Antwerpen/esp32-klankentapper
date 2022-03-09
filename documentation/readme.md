@@ -6,9 +6,9 @@
 
 1. [Prepare the ESP32](software.md)
 2. [Build the hardware](hardware.md)
-3. [Wifi and MQTT configuration](wifi.md)
+3. [Wifi and MQTT configuration](connectivity.md)
 
-## Supplies
+## Bill of materials
 
 ![Hardware](/documentation/imgs/hardware_bom.png)
 
@@ -34,3 +34,10 @@
 - [1 Lasercut standoff plate](/hardware/baseplate/baseplate.svg)
 - 1 3D printed cable gland
 - [1 3D printed cable gland cover](/hardware/cablegland/cap.stl)
+
+### Tools
+
+- Tweezers
+- Soldering iron & solder
+- Screwdrivers
+- Pen & paper
