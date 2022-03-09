@@ -34,3 +34,10 @@
 - [1 Lasercut standoff plate](/hardware/baseplate/baseplate.svg)
 - 1 3D printed cable gland
 - [1 3D printed cable gland cover](/hardware/cablegland/cap.stl)
+
+### Tools
+
+- Tweezers
+- Soldering iron & solder
+- Screwdrivers
+- Pen & paper
