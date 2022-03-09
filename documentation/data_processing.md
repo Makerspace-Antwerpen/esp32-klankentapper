@@ -26,11 +26,11 @@ This Nod-red flow ensures all our Klankentapper data will get to our database. W
 
 The first step is to add a server inside the "MQTT In" node and fill in your MQTT broker ip:
 
-![Node-red](/documentation/imgs/mqtt_node_server.png)
+<img src="imgs/mqtt_node_server.png" alt="MQTT in server" style="width:400px;"/>
 
 Next fill in your topic and set the output to "a parsed JSON object":
 
-![Node-red](/documentation/imgs/mqtt_node.png)
+<img src="imgs/mqtt_node.png" alt="MQTT in settings" style="width:400px;"/>
 
 #### *JSON to float node*
 
@@ -41,7 +41,7 @@ This "function node" will serve as a JSON string to float converter. This step i
 
 Now it should look like this:
 
-![JSON to float](/documentation/imgs/node_red_float.png)
+<img src="imgs/node_red_float.png" alt="JSON to float" style="width:500px;"/>
 
 #### *InfluxDB node*
 
@@ -51,11 +51,11 @@ The first step is to add a server inside the "InfluxDB out" node, fill in your d
 
 **Attention!** Be sure to check your InfluxDB version and adjust if necessary!
 
-![Node-red](/documentation/imgs/influxdb_node_server.png)
+<img src="imgs/influxdb_node_server.png" alt="InfluxDB out server" style="width:400px;"/>
 
 Next fill in your database and give your measurement a name:
 
-![Node-red](/documentation/imgs/influxdb_node.png)
+<img src="imgs/influxdb_node.png" alt="InfluxDB out settings" style="width:400px;"/>
 
 Done! Don't forget to deploy! Now you are able to send data from your MQTT broker to your database.
 
@@ -135,22 +135,25 @@ Storing our data is fun and all but what about being able to perceive said data?
 
 Aside from transporting data from our MQTT broker to our database we are also able to visualize said data inside Node-red. [This tutorial](https://flows.nodered.org/node/node-red-dashboard) shows all you need to know about Node-red dashboard.
 
-#### *Some examples*
+#### *Example*
 
 As an example we will show you how we can visualize our data as a gauge:
 
 1. Add a "gauge node" from the left menu inside your flow
-![Add gauge node](/documentation/imgs/node_red_ui_nodes.png)
+
+<img src="imgs/node_red_ui_nodes.png" alt="Add gauge node" style="width:200px;"/>
+
 2. Connect your "JSON to float" node to this node
-![Gauge node input](/documentation/imgs/gauge_node.png)
+
+<img src="imgs/gauge_node.png" alt="Add gauge node" style="width:250px;"/>
+
 3. Configure the Gauge node accordingly
-![Gauge node settings](/documentation/imgs/gauge_settings.png)
+
+<img src="imgs/gauge_settings.png" alt="Add gauge node" style="width:300px;"/>
 
 All done!
 
 ![Node-red UI](/documentation/imgs/node_red_ui.png)
-
-
 
 ### Grafana
 
