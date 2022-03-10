@@ -19,7 +19,7 @@ Before installing the MQTT broker to our Raspberry Pi, we need to update the ope
 
 ### 2. Installing the Mosquitto software
 
-Luckily for us, the Mosquitto MQTT broker is available as part of the Raspbian repository, so installing the software is simple.Run the following command to install Mosquitto alongside its client software:
+Luckily for us, the Mosquitto MQTT broker is available as part of the Raspbian repository, so installing the software is simple. Run the following command to install Mosquitto alongside its client software:
 
     sudo apt install mosquitto mosquitto-clients
 
