@@ -32,10 +32,10 @@ Next up is configuring our MQTT connection, we will explain how you can setup a 
 
 Setting up a MQTT connection on your klankentapper is rather simple. You are able to fill in 4 parameters:
 
-- Broker url, Type in mqtt:// followed by your broker ip-address.
-- Topic, specify to which topic you want to publish.
-- Username
-- Password
+- **Broker url**, type in mqtt:// followed by your broker ip-address.
+- **Topic**, specify to which topic you want to publish.
+- **Username**
+- **Password**
 
 Both username and password are optional. These settings only need to be filled in when you need to sign in to your broker by using your credentials.
 

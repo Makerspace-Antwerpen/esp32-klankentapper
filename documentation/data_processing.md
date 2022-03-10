@@ -37,7 +37,7 @@ Make your Mosquitto broker start on boot by using the following command:
 
 ## Database
 
-We would like to store our messages somewhere so that we can retrieve/review them later, this is why we will be using a database. For this example we will show you how to utilize the open source, time series based [InfluxDB](https://www.influxdata.com/).
+We would like to store our data somewhere so that we can retrieve/review it later, this is why we will be using a database. For this example we will show you how to utilize the open source, time series based [InfluxDB](https://www.influxdata.com/).
 
 Please refer to [this tutorial](https://pimylifeup.com/raspberry-pi-influxdb/) to set up your own InfluxDB database.
 
@@ -92,9 +92,9 @@ Done! Don't forget to deploy! Now you are able to send data from your MQTT broke
 
 An other way to send data is via a python script. This python script is able to send data from your broker to your database while running in the background of your Raspberry Pi.
 
-**Attention!** In order to run this script you will need [Python3](https://projects.raspberrypi.org/en/projects/generic-python-install-python3) and [Paho MQTT](https://pypi.org/project/paho-mqtt/)
+**Attention!** In order to run this script you will need [Python3](https://projects.raspberrypi.org/en/projects/generic-python-install-python3) and [Paho MQTT](https://pypi.org/project/paho-mqtt/).
 
-First thing to do is make a new python script in your user directory (`cd ~/`) by making a new script, `nano my_new_script.py` and adding following code:
+First thing to do is make a new python script in your user directory (`cd ~/`) by making a new script, `nano my_new_script.py` and adding the following code:
 
     from paho.mqtt import client as mqtt_client
     from influxdb import InfluxDBClient

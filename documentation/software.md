@@ -14,7 +14,7 @@ The ESP32 boards are built and flashed by default. The next steps will explain h
 
 ## Building the project
 
-When you have finished installing all the prerequisites we are able to move on to building the klankentapper project. if you haven't already downloaded the project do so now. Be sure the project is fully accessible by extracting it if downloaded via zip.
+When you have finished installing all the prerequisites we are able to move on to building the Klankentapper project. if you haven't already downloaded the project do so now. Be sure the project is fully accessible by extracting it if downloaded via zip.
 
 Now open the Executable.
 

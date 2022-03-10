@@ -28,7 +28,7 @@ After comparing the ST MP34DT01-M, Knowles SPH0645LM4H, Vesper VM3000 and Infine
 
 <img src="documentation/imgs/hardware_pcb.png" alt="PCB" style="width:600px;"/>
 
-We have created a [custom designed PCB](https://github.com/Makerspace-Antwerpen/klankentappers-PCB) for our Infineon IM69D120 microphone. Besides the microphone this PCB also includes a [Analog Devices ADAU7002](https://www.analog.com/en/products/adau7002.html#product-overview) PDM-to-I2S converter chip. This allows you to read the audio data in both I2S and PDM format. Thanks to the consistency of the microphones among each other, we are able to use them with 1 standerd calibration (per batch produced).
+We have created a [custom designed PCB](https://github.com/Makerspace-Antwerpen/klankentappers-PCB) for our Infineon IM69D120 microphone. Besides the microphone this PCB also includes an [Analog Devices ADAU7002](https://www.analog.com/en/products/adau7002.html#product-overview) PDM-to-I2S converter chip. This allows you to read the audio data in both I2S and PDM format. Thanks to the consistency of the microphones among each other, we are able to use them with 1 standard calibration (per batch produced).
 
 ### Software to analyse ambient noise
 
@@ -42,7 +42,7 @@ Our microphone, although carefully selected for the flattest possible frequency 
 
 <img src="documentation/imgs/frequency_response.png" alt="Frequency response" style="width:600px;"/>
 
-We also want to apply an A weighting filter to our signal, so the end values represent a DBA measurement. You can read more about the A-weighting of audio signals on [this link](https://en.wikipedia.org/wiki/A-weighting)
+We also want to apply an A-weighting filter to our signal, so the end values represent a dBA measurement. You can read more about the A-weighting of audio signals on [this link](https://en.wikipedia.org/wiki/A-weighting).
 
 <img src="documentation/imgs/a_weighting.png" alt="A-weighting" style="width:500px;"/>
 
@@ -50,24 +50,24 @@ To achieve both of those things, we use IIR filters. These are a kind of digital
 
 The first filter used flattens the frequency response of the used microphone. The second filter applies the A-weighting to the audio signal before the RMS is calculated.
 
-#### RMS and DBA calculation
+#### RMS and dBA calculation
 
-We now have a leveled and then weighted audio signal. The next step is calculating a DBA value from this signal. The time interval over which this value is calculated is important. We chose for the fast standard. See [this](https://en.wikipedia.org/wiki/Sound_level_meter#Time_weighting) link for more information. The fast standard measures the sound level over an interval of 1/8th of a second. Therefore, we use 6000 (48000/8) samples for each rms DBA calculation. 
+We now have a leveled and then weighted audio signal. The next step is calculating a dBA value from this signal. The time interval over which this value is calculated is important. We chose for the fast standard. See [this](https://en.wikipedia.org/wiki/Sound_level_meter#Time_weighting) link for more information. The fast standard measures the sound level over an interval of 1/8th of a second. Therefore, we use 6000 (48000/8) samples for each rms dBA calculation. 
 To calculate the RMS value we use the following formula:  
 ![formula](https://render.githubusercontent.com/render/math?math=RMS=\sqrt{\frac{\sum_{0}^{n}s^2}{n}})  
 Where:  
 ![formula](https://render.githubusercontent.com/render/math?math=n=6000)  
 ![formula](https://render.githubusercontent.com/render/math?math=s_n=sample_n)  
-After this we calculate the DBA value from this RMS value with the following formula:  
+After this we calculate the dBA value from this RMS value with the following formula:  
 ![formula](https://render.githubusercontent.com/render/math?math=DBA=MIC%5C_OFSET%5C_DB%2BMIC%5C_REFF%5C_DB%2B\frac{20\log{RMS}}{MIC%5C_REFF%5C_AMP})  
 Where:  
-![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_OFSET%5C_DB=) Correction db for dc value of mic. 0 in our case.  
+![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_OFSET%5C_DB=) Correction dB for DC value of mic. 0 In our case.  
 ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB=) Sound level at which the ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) occurs.  
 ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP=) RMS value that occurs at ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) sound level.  
 
 The ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_DB) and ![formula](https://render.githubusercontent.com/render/math?math=MIC%5C_REFF%5C_AMP) values are experimentally acquired.
 
-#### dBA measurement test results
+#### DBA measurement test results
 
 The quality of the ESP32-Klankentapper was tested in the anechoic chamber of the [imec waves research group](https://www.waves.intec.ugent.be/) at the University of Ghent in Belgium.
 
