@@ -18,7 +18,7 @@ When you have finished installing all the prerequisites we are able to move on t
 
 Now open the Executable.
 
-![ESP-IDF](/documentation/imgs/esp_idf.png)
+<img src="imgs/esp_idf.png" alt="ESP-IDF-1" style="width:600px;"/>
 
 The next step is to navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be: `cd C:\Users\user_name\Desktop\esp32-klankentapper`
 
@@ -30,7 +30,7 @@ In this step we will explain how you can flash and update firmware to your ESP32
 
 First you will need to open the ESP-IDF executable.
 
-![ESP-IDF](/documentation/imgs/esp_idf.png)
+<img src="imgs/esp_idf.png" alt="ESP-IDF-2" style="width:600px;"/>
 
 Navigate to the directory of the project by using the cd command. E.g. when you extracted the zip to your desktop on Windows the command would be: `cd C:\Users\user_name\Desktop\esp32-klankentapper`
 
@@ -38,4 +38,4 @@ If you are in the right directory, you are now able to build the project by usin
 
 ## Setting up the Wifi
 
-[![Wifi setup](/documentation/imgs/wifi_setup.png)](wifi.md)
+[![Wifi setup](/documentation/imgs/wifi_setup.png)](connectivity.md)

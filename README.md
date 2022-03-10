@@ -26,7 +26,7 @@ In this repository you can also find the [bill of materials](/documentation/read
 
 After comparing the ST MP34DT01-M, Knowles SPH0645LM4H, Vesper VM3000 and Infineon IM69D120 microphones, we concluded that the latter can be used with good accuracy (<±1.5dBA) to measure environmental noise. The accuracy of the Infineon IM69D120 microphone and the hardware of the whole sound meter were thoroughly tested in the anechoic chamber of [Imec Waves](https://www.waves.intec.ugent.be/).
 
-![PCB](/documentation/imgs/hardware_pcb.png)
+<img src="documentation/imgs/hardware_pcb.png" alt="PCB" style="width:600px;"/>
 
 We have created a [custom designed PCB](https://github.com/Makerspace-Antwerpen/klankentappers-PCB) for our Infineon IM69D120 microphone. Besides the microphone this PCB also includes a [Analog Devices ADAU7002](https://www.analog.com/en/products/adau7002.html#product-overview) PDM-to-I2S converter chip. This allows you to read the audio data in both I2S and PDM format. Thanks to the consistency of the microphones among each other, we are able to use them with 1 standerd calibration (per batch produced).
 
@@ -40,11 +40,11 @@ This repository includes the [software](/main/) used to correctly read the micro
 
 Our microphone, although carefully selected for the flattest possible frequency response, still has a frequency response that isn't completely flat. This is a problem that needs to be sorted before we can use the measurements for anything meaningful.
 
-![Frequency response](/documentation/imgs/frequency_response.png)
+<img src="documentation/imgs/frequency_response.png" alt="Frequency response" style="width:600px;"/>
 
 We also want to apply an A weighting filter to our signal, so the end values represent a DBA measurement. You can read more about the A-weighting of audio signals on [this link](https://en.wikipedia.org/wiki/A-weighting)
 
-![A-weighting](/documentation/imgs/a_weighting.png)
+<img src="documentation/imgs/a_weighting.png" alt="A-weighting" style="width:500px;"/>
 
 To achieve both of those things, we use IIR filters. These are a kind of digital filter that can be applied to a digital signal. You can read more about IIR filters on [this link](https://en.wikipedia.org/wiki/Digital_filter). The filter code used in iir-filter.hpp is universal. It is the filter coefficients that dictate the characteristics of the filter. Acquiring these filter coefficients requires some advanced mathematics that go out of scope for this document. You can find the used filter coefficients in the codebase on line 31-34 of [dbaMeasure.cpp](/main/dbaMeasure.cpp). Be advised that these values are sample rate specific and can thus be only used with a 48kHz sample rate.
 

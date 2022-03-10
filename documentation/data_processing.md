@@ -26,11 +26,11 @@ This Nod-red flow ensures all our Klankentapper data will get to our database. W
 
 The first step is to add a server inside the "MQTT In" node and fill in your MQTT broker ip:
 
-<img src="imgs/mqtt_node_server.png" alt="MQTT in server" style="width:400px;"/>
+<img src="imgs/mqtt_node_server.png" alt="MQTT in server" style="width:500px;"/>
 
 Next fill in your topic and set the output to "a parsed JSON object":
 
-<img src="imgs/mqtt_node.png" alt="MQTT in settings" style="width:400px;"/>
+<img src="imgs/mqtt_node.png" alt="MQTT in settings" style="width:500px;"/>
 
 #### *JSON to float node*
 
@@ -51,11 +51,11 @@ The first step is to add a server inside the "InfluxDB out" node, fill in your d
 
 **Attention!** Be sure to check your InfluxDB version and adjust if necessary!
 
-<img src="imgs/influxdb_node_server.png" alt="InfluxDB out server" style="width:400px;"/>
+<img src="imgs/influxdb_node_server.png" alt="InfluxDB out server" style="width:500px;"/>
 
 Next fill in your database and give your measurement a name:
 
-<img src="imgs/influxdb_node.png" alt="InfluxDB out settings" style="width:400px;"/>
+<img src="imgs/influxdb_node.png" alt="InfluxDB out settings" style="width:500px;"/>
 
 Done! Don't forget to deploy! Now you are able to send data from your MQTT broker to your database.
 
