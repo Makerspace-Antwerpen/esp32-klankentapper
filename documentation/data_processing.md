@@ -6,11 +6,40 @@ This document possesses some tutorials on how to process/visualize your Klankent
 
 ## MQTT Broker
 
-The most important part about MQTT is setting up our broker, this broker will act as a post office. Our ESP32 will send messages to a topic on said broker. Finally we will be able to subscribe to this topic with our client of choice and we will be able to receive these messages. We will be using the well-known [Mosquitto Broker](https://mosquitto.org/).
+The most important part about MQTT is setting up our broker, this broker will act as a post office. Our ESP32 will send messages to a topic on said broker. Finally we will be able to subscribe to this topic with our client of choice and receive these messages. We will be using the well-known [Mosquitto Broker](https://mosquitto.org/).
+
+The installation is rather simple when you are using a Raspberry Pi (raspbian OS) to host the MQTT broker. Refer to the above mentioned Mosquitto documentation if you want to host your broker on another platform.
+
+### 1. Update your OS
+
+Before installing the MQTT broker to our Raspberry Pi, we need to update the operating system. All we need to do to update the system is to run the following two commands:
+
+    sudo apt update
+    sudo apt upgrade
+
+### 2. Installing the Mosquitto software
+
+Luckily for us, the Mosquitto MQTT broker is available as part of the Raspbian repository, so installing the software is simple.Run the following command to install Mosquitto alongside its client software:
+
+    sudo apt install mosquitto mosquitto-clients
+
+### 3. Checking installation
+
+At this point, you will now have the Mosquitto MQTT broker up and running on your device. You can verify that it is installed and running by using the command below:
+
+    sudo systemctl status mosquitto
+
+### 4. Running on boot
+
+Make your Mosquitto broker start on boot by using the following command:
+
+    sudo systemctl enable mosquitto.service
 
 ## Database
 
-We would like to store our messages somewhere so that we can retrieve/review them later. This is why we will be using a database, in this example we will use the open source, time series based [InfluxDB](https://www.influxdata.com/).
+We would like to store our messages somewhere so that we can retrieve/review them later, this is why we will be using a database. For this example we will show you how to utilize the open source, time series based [InfluxDB](https://www.influxdata.com/).
+
+Please refer to [this tutorial](https://pimylifeup.com/raspberry-pi-influxdb/) to set up your own InfluxDB database.
 
 ## Data Transportation
 
