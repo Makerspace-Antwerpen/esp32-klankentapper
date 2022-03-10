@@ -6,15 +6,15 @@ This document possesses some tutorials on how to process/visualize your Klankent
 
 ## MQTT Broker
 
-In order to be able to subscribe to your set topic you will need a MQTT broker. We will be using the well-known [Mosquitto Broker](https://mosquitto.org/).
+The most important part about MQTT is setting up our broker, this broker will act as a post office. Our ESP32 will send messages to a topic on said broker. Finally we will be able to subscribe to this topic with our client of choice and we will be able to receive these messages. We will be using the well-known [Mosquitto Broker](https://mosquitto.org/).
 
 ## Database
 
-We will store our data on a database, here we will be using the open source, time series based [InfluxDB](https://www.influxdata.com/).
+We would like to store our messages somewhere so that we can retrieve/review them later. This is why we will be using a database, in this example we will use the open source, time series based [InfluxDB](https://www.influxdata.com/).
 
 ## Data Transportation
 
-There are a few options on how to transport data from your MQTT broker to your database. We will show you 2 ways on how to do this.
+InfluxDB cannot subscribe to our topic on its own, this is why we need to help transport our data to our database. We will show you 2 ways on how to do this:
 
 ### Node-red flow
 
@@ -65,8 +65,7 @@ An other way to send data is via a python script. This python script is able to 
 
 **Attention!** In order to run this script you will need [Python3](https://projects.raspberrypi.org/en/projects/generic-python-install-python3) and [Paho MQTT](https://pypi.org/project/paho-mqtt/)
 
-First thing to do is make a new python script in your user directory (`cd ~/`) by making a new script, `nano my_new_script` and adding following code:
-
+First thing to do is make a new python script in your user directory (`cd ~/`) by making a new script, `nano my_new_script.py` and adding following code:
 
     from paho.mqtt import client as mqtt_client
     from influxdb import InfluxDBClient
@@ -133,7 +132,7 @@ Storing our data is fun and all but what about being able to perceive said data?
 
 ### Node-red UI
 
-Aside from transporting data from our MQTT broker to our database we are also able to visualize said data inside Node-red. [This tutorial](https://flows.nodered.org/node/node-red-dashboard) shows all you need to know about Node-red dashboard.
+Aside from transporting data from our MQTT broker to our database we are also able to visualize said data inside Node-red. We will be using Node-red dashboard, [this tutorial](https://flows.nodered.org/node/node-red-dashboard) shows all you need to know about Node-red dashboard.
 
 #### *Example*
 
@@ -157,7 +156,7 @@ All done!
 
 ### Grafana
 
-Grafana is used for converting our data into a visual graph, which makes monitoring/viewing our data much easier. The only thing we will need is the InfluxDB data source inside our Grafana web interface:
+Grafana is used for converting our data into a time series based graph, which makes monitoring/viewing our data much easier. The only thing we will need is the InfluxDB data source inside our Grafana web interface (under configuration):
 
 ![Grafana settings](/documentation/imgs/grafana_data_source.png)
 
